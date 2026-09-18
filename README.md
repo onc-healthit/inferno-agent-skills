@@ -2,7 +2,7 @@
 
 This project extends upon the initial [ONCLAIVE repository](https://github.com/onc-healthit/ONCLAIVE).
 
-The purpose of this project is to aid Inferno test-kit developers keep conformance tests aligned with updated FHIR Implementation Guides (IGs). The skills turn an old/new IG comparisons into a structured change ledger, connect each change to evidence in a baseline Inferno test kit, and produce a reviewable decision about whether a test, fixture, requirement link, or assertion needs to change. Approved decisions can then guide a focused implementation and validation pass instead of requiring developers to rediscover the relevant IG and test-kit context by hand.
+The purpose of this project is to aid Inferno test-kit developers keep conformance tests aligned with updated FHIR® Implementation Guides (IGs).[^1] The skills turn an old/new IG comparisons into a structured change ledger, connect each change to evidence in a baseline Inferno test kit, and produce a reviewable decision about whether a test, fixture, requirement link, or assertion needs to change. Approved decisions can then guide a focused implementation and validation pass instead of requiring developers to rediscover the relevant IG and test-kit context by hand.
 
 It is designed for a human-in-the-loop workflow with an agent client such as Codex or Claude Code. The user provides the source materials, target test kit, scope, credentials, and approvals; the agent gathers evidence and prepares artifacts at each stage; and the developer reviews the findings and remains responsible for implementation decisions. The usage-metrics skill and dashboard provide a separate way to review the effort and agent activity associated with this work.
 
@@ -42,3 +42,7 @@ For IG-driven Inferno test-kit updates, the recommended skill workflow is:
 For agent-use evaluation, run `agent-usage-metrics-skill` to generate reports, then open the Agent Evaluation Dashboard to visualize them.
 
 The IG-change-ledger skill calls an LLM and requires a provider key: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, or, for comparison, `GEMINI_API_KEY`. Set keys in your shell or an untracked `.env` file. The other skills run locally, although agent-usage token and cost enrichment may require separately approving a `ccusage` download.
+
+---
+
+[^1]: HL7® and FHIR® are registered trademarks of Health Level Seven International.

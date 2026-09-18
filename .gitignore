@@ -1,0 +1,31 @@
+.DS_Store
+
+# Python and uv environments, caches, and local credentials
+.venv/
+.env
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Agent Usage Metrics reports (the skill defaults to outputs/)
+outputs/
+
+# FHIR IG change-ledger artifacts
+demo-artifacts/
+comparison-artifacts/
+artifacts/
+**/ig/site/
+**/ig/converted_markdown/
+**/ig/cleaned_markdown/
+**/ig/difference_chunks/
+**/ig/reqs_difference_chunks/
+**/ig/differences_*.md
+**/ig/reqs_difference_output_*.md
+change_ledger_raw_*.yaml
+
+# Evidence-matcher products. Keep authored decision ledgers and reports trackable.
+change_ledger_enriched_*.yaml
+change_ledger_enriched_*.jsonl
+*_inventory_enriched.yaml

@@ -623,6 +623,7 @@ dependencies = [
     { name = "httpx" },
     { name = "langchain" },
     { name = "langchain-community" },
+    { name = "markdownify" },
     { name = "openai" },
     { name = "openpyxl" },
     { name = "pandas" },
@@ -647,6 +648,7 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.28.0" },
     { name = "langchain", specifier = ">=0.3.0,<1.0.0" },
     { name = "langchain-community", specifier = ">=0.3.0,<0.4.0" },
+    { name = "markdownify", specifier = ">=1.2.3" },
     { name = "openai", specifier = ">=1.0.0" },
     { name = "openpyxl", specifier = ">=3.1.0" },
     { name = "pandas", specifier = ">=2.2.0" },
@@ -874,6 +876,19 @@ dependencies = [
 sdist = { url = "https://artifacts.mitre.org/artifactory/api/pypi/python/packages/packages/1f/ab/53c8110164e52ae759d3fed27a24cf860c717995be3ab652cf4d671a2a60/langsmith-0.12.6.tar.gz", hash = "sha256:f16901a5be1539f8c789cd26391f1935886f4029bfaf465d82afde7f7cb464bb" }
 wheels = [
     { url = "https://artifacts.mitre.org/artifactory/api/pypi/python/packages/packages/73/03/e63610daca0bdadb6456648beea89e812f245293d39f2eb7287503e2f419/langsmith-0.12.6-py3-none-any.whl", hash = "sha256:5782b38dd259b2a6a1933dc9ca2beba4fb2899ad05e2ab10d61568dc49ce1d35" },
+]
+
+[[package]]
+name = "markdownify"
+version = "1.2.3"
+source = { registry = "https://artifacts.mitre.org/artifactory/api/pypi/python/simple" }
+dependencies = [
+    { name = "beautifulsoup4" },
+    { name = "six" },
+]
+sdist = { url = "https://artifacts.mitre.org/artifactory/api/pypi/python/packages/packages/92/ab/d1297139c0e2ceb151ae564c8c4f57ac0155d8f1f8b4cbd5d6523c82ea36/markdownify-1.2.3.tar.gz", hash = "sha256:1a176f05522c8a2cb1dd3ab9d307dcdadbed5c26ae717855bfc42b3b6d38d937" }
+wheels = [
+    { url = "https://artifacts.mitre.org/artifactory/api/pypi/python/packages/packages/04/10/fa543d484e8b1199243fe20eedd02cc5af050edebce98a7293a5773df592/markdownify-1.2.3-py3-none-any.whl", hash = "sha256:a189a0bedfd14009030fde5f85bb6f77c56897cb839b5c25315dd7d4e3e290ba" },
 ]
 
 [[package]]

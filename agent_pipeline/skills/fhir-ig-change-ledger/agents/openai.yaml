@@ -1,4 +1,4 @@
 interface:
   display_name: "FHIR IG Change Ledger"
-  short_description: "Build raw structured ledgers from FHIR IG narrative changes."
-  default_prompt: "Use this skill to extract FHIR IG narrative, compare versions, and produce a raw structured change ledger."
+  short_description: "Directly compare FHIR IG versions and build IG-only raw ledgers."
+  default_prompt: "Use this skill to directly compare two FHIR IG versions, create a reviewable narrative diff, and produce an IG-only raw change ledger."

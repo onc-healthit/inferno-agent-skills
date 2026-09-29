@@ -44,7 +44,7 @@ narrative page.
 
 ## Change Type Hints
 
-Use consistent change types so later skills can match and assess evidence:
+Use consistent change types so later skills can match and assess evidence. Here are some examples of change types to use but you are NOT limited to only these values:
 
 - `capability_statement_change`: interactions, search support, scopes, includes, response statuses, or server behavior.
 - `profile_structure_change`: StructureDefinition cardinality, slicing, invariants, Must Support, or element semantics.
@@ -53,20 +53,6 @@ Use consistent change types so later skills can match and assess evidence:
 - `security_privacy_change`: SMART, OAuth, TLS, audit, privacy, legal, or authorization requirements.
 - `guidance_change`: background or narrative guidance that may not directly affect tests.
 
-## Test Action Hints
-
-`test_action` is a planning hint, not a decision. Use broad values such as:
-
-- `add_required_assertion`
-- `update_fixture_or_assertion`
-- `delete_or_make_optional`
-- `author_new_test`
-- `update_suite_config`
-- `update_preconditions`
-- `manual_review`
-- `no_test_change_likely`
-
-Do not include concrete file paths or final decisions in the raw ledger.
 
 ## Noise Filtering
 

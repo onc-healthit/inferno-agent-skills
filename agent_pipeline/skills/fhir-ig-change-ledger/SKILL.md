@@ -31,7 +31,8 @@ Resolve package URLs locally, retain the resolved source URL and package identit
 2. Unpack and inspect both packages directly. Locate narrative-bearing IG artifacts, including rendered pages, markdown or HTML source, StructureDefinitions, CapabilityStatements, examples, value sets, and requirement or conformance tables when present. Ignore generated navigation, timestamps, and other presentation-only noise.
 3. Normalize only enough to compare meaning: preserve headings, anchors, requirement IDs, resource names, element paths, cardinalities, bindings, MUST/SHALL language, and links to authoritative artifacts. Do not silently discard substantive prose because it is hard to map.
 4. Match old and new material by stable identifiers first, then canonical URLs, anchors, logical resource/element context, and finally clearly labeled narrative similarity. Identify additions, removals, modifications, moves, splits, merges, and uncertain matches. Use the optional XLSX only to add historical context and mark its contribution.
-5. Only include requirement-level changes in the ledger that would ultimately impact the existing test kit to the best of your knowledge. Do not infer a change from cosmetic, navigational, or other unimportant differences. If a requirement is unchanged but its narrative context has changed, record the context change in the diff but do not create a ledger entry.
+5. Only include requirement-level changes in the ledger that would ultimately impact the existing test kit to the best of your knowledge. Do not infer a change from cosmetic, navigational, or other unimportant differences.
+6. Changes may include: requirements are removed, which can be inferred from the fact that the new IG does not have matching files to the old version (but would need to be verified that this content was not moved elsewhere). Changes may also include requirements that are added, which can be inferred from the fact that the new IG has files that do not match any of the old version (but would need to be verified that this content was not moved from elsewhere). Changes may also include requirements that are modified, which can be inferred from the fact that the new IG has files that match the old version but have differences in content (but would need to be verified that this content was not moved from elsewhere).
 6. Write the narrative diff before creating the ledger. Each ledger record must trace to one or more diff entries; do not infer a change absent from the diff.
 
 Do the comparison yourself using the local contents.
@@ -44,7 +45,7 @@ The document must contain:
 
 - A metadata section with the two IG identities, input locations, comparison date, optional XLSX location, and disclosed limitations.
 - A summary table counting added, removed, modified, moved, split, merged, and unresolved entries.
-- One uniquely identified entry per requirement-level narrative change, organized by IG artifact and requirement context. Include the change type; old and new source locations; requirement ID(s), if available; resource and element context; verbatim or tightly bounded old/new text; a concise factual summary; and confidence (`high`, `medium`, or `low`).
+- One uniquely identified entry per requirement-level narrative change, organized by IG artifact and requirement context. Include the change type; old and new source locations; requirement ID(s), if available; resource and element context; verbatim or tightly bounded old/new text; and a concise factual summary.
 - An explicit `Unresolved or non-comparable material` section for missing, ambiguous, generated-only, or unreadable source material. State why it was not compared and what evidence would resolve it.
 
 Entries must be independently reviewable: a reviewer must be able to find the cited source content without rerunning the comparison. Do not characterize cosmetic rendering, navigation, date, or build-output differences as requirement changes.
@@ -66,7 +67,7 @@ changes: []
 unresolved: []
 ```
 
-Every `changes` item must include `change_id`, `diff_entry_id`, `artifact_id`, `artifact_type`, `source_locations`, `requirement_ids`, `affected_resource`, `element_paths`, `change_type`, `old_text`, `new_text`, `summary`, `confidence`, and `source_of_truth_status`. Use `null` or an empty list where evidence is absent; never invent values. `change_id` must be stable for the same sources and diff entry.
+Every `changes` item must include `change_id`, `diff_entry_id`, `artifact_id`, `artifact_type`, `source_locations`, `requirement_ids`, `affected_resource`, `element_paths`, `change_type`, `old_text`, `new_text`, `summary`, and `source_of_truth_status`. Use `null` or an empty list where evidence is absent; never invent values. `change_id` must be stable for the same sources and diff entry.
 
 Every `unresolved` item must include `unresolved_id`, `source_locations`, `reason`, `available_evidence`, and `needed_to_resolve`. The ledger may additionally carry IG-native conformance facts such as old/new cardinality, binding, actor, or scope when directly evidenced by the diff.
 

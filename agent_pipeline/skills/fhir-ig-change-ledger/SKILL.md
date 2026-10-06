@@ -28,12 +28,20 @@ Resolve package URLs locally, retain the resolved source URL and package identit
 ## Direct comparison workflow
 
 1. Establish identity for each IG: package ID, version, canonical URL when present, and source path or URL. Record unavailable values explicitly.
-2. Unpack and inspect both packages directly. Locate narrative-bearing IG artifacts, including rendered pages, markdown or HTML source, StructureDefinitions, CapabilityStatements, examples, value sets, and requirement or conformance tables when present. Ignore generated navigation, timestamps, and other presentation-only noise.
-3. Normalize only enough to compare meaning: preserve headings, anchors, requirement IDs, resource names, element paths, cardinalities, bindings, MUST/SHALL language, and links to authoritative artifacts. Do not silently discard substantive prose because it is hard to map.
-4. Match old and new material by stable identifiers first, then canonical URLs, anchors, logical resource/element context, and finally clearly labeled narrative similarity. Identify additions, removals, modifications, moves, splits, merges, and uncertain matches. Use the optional XLSX only to add historical context and mark its contribution.
-5. Only include requirement-level changes in the ledger that would ultimately impact the existing test kit to the best of your knowledge. Do not infer a change from cosmetic, navigational, or other unimportant differences.
-6. Changes may include: requirements are removed, which can be inferred from the fact that the new IG does not have matching files to the old version (but would need to be verified that this content was not moved elsewhere). Changes may also include requirements that are added, which can be inferred from the fact that the new IG has files that do not match any of the old version (but would need to be verified that this content was not moved from elsewhere). Changes may also include requirements that are modified, which can be inferred from the fact that the new IG has files that match the old version but have differences in content (but would need to be verified that this content was not moved from elsewhere).
-6. Write the narrative diff before creating the ledger. Each ledger record must trace to one or more diff entries; do not infer a change absent from the diff.
+2. Unpack both packages. Find requirement pages and FHIR resources, including profiles, CapabilityStatements, terminology, extensions, search parameters, operations, and conformance tables.
+3. Make a file manifest before comparing details. Add one row for every candidate file from either version: old file, new file, type, match reason, status, and notes. Use `matched`, `added`, `removed`, `moved`, `split`, `merged`, `excluded`, or `unresolved`. Every candidate file needs a row.
+4. Ignore presentation noise unless it contains a unique requirement. This includes navigation, tables of contents, indexes, history and download pages, QA/build pages, repeated headers and footers, timestamps, and duplicate JSON/XML/TTL views. Treat translated or duplicate rendered pages as one file unless their requirement text differs. Skip examples, mappings, and guidance only when they add no normative requirement. Record why each file was skipped. If unsure, mark it `unresolved`.
+5. Clean formatting, not meaning. Remove repeated navigation, headers, footers, timestamps, and whitespace-only changes. Keep exact requirement wording, IDs, URLs, headings, anchors, resource and element paths, cardinalities, bindings, must-support flags, actors, scope, conditionality, and normative references. When prose and a FHIR resource state the same rule, use the FHIR resource as the technical source and cite the prose as supporting context. If a constraint disappears from a profile differential, compare the base definition or snapshot before calling it removed or changed. If the effective constraint is still unclear, mark it `unresolved`.
+6. Match files in this order:
+   1. IDs and canonical URLs.
+   2. Resource type, artifact name, or element path.
+   3. Headings and nearby requirement text.
+   4. Similar wording.
+
+   Label the last kind as an inferred match and record the evidence. Before calling a file added or removed, search both versions for a renamed, moved, split, or merged equivalent.
+7. Compare independent requirement sections separately. Record added, removed, changed, moved, split, merged, and uncertain requirements. Include every substantive IG change. Do not decide whether it affects a test kit.
+8. If an old requirements XLSX is supplied, record the sheets and columns used. Preserve IDs and, when available, requirement text, URL, conformance, actor, scope, conditionality, and planning metadata. Use it as historical context only. If it conflicts with the IG, follow the IG and record the limitation.
+9. Write the narrative diff before creating the ledger. Each ledger record must trace to one or more diff entries; do not infer a change absent from the diff.
 
 Do the comparison yourself using the local contents.
 
@@ -44,11 +52,12 @@ Write `<output_dir>/differences_<old_version>_to_<new_version>.md`. The filename
 The document must contain:
 
 - A metadata section with the two IG identities, input locations, comparison date, optional XLSX location, and disclosed limitations.
+- The artifact manifest, including match basis and a disposition for every candidate artifact from both versions.
 - A summary table counting added, removed, modified, moved, split, merged, and unresolved entries.
 - One uniquely identified entry per requirement-level narrative change, organized by IG artifact and requirement context. Include the change type; old and new source locations; requirement ID(s), if available; resource and element context; verbatim or tightly bounded old/new text; and a concise factual summary.
 - An explicit `Unresolved or non-comparable material` section for missing, ambiguous, generated-only, or unreadable source material. State why it was not compared and what evidence would resolve it.
 
-Entries must be independently reviewable: a reviewer must be able to find the cited source content without rerunning the comparison. Do not characterize cosmetic rendering, navigation, date, or build-output differences as requirement changes.
+Entries must be independently reviewable: a reviewer must be able to find the cited source content without rerunning the comparison. Use `package-path#anchor` for narrative pages and `package-path#/JSON-pointer` for structured FHIR artifacts. Do not characterize cosmetic rendering, navigation, date, or build-output differences as requirement changes.
 
 ## Raw-ledger artifact contract
 
@@ -69,6 +78,8 @@ unresolved: []
 
 Every `changes` item must include `change_id`, `diff_entry_id`, `artifact_id`, `artifact_type`, `source_locations`, `requirement_ids`, `affected_resource`, `element_paths`, `change_type`, `old_text`, `new_text`, `summary`, and `source_of_truth_status`. Use `null` or an empty list where evidence is absent; never invent values. `change_id` must be stable for the same sources and diff entry.
 
+Use one of these `change_type` values: `requirement_added`, `requirement_removed`, `requirement_modified`, `conformance_changed`, `cardinality_changed`, `binding_or_terminology_changed`, `actor_or_scope_changed`, `search_or_operation_changed`, `artifact_moved_or_renamed`, `requirement_split_or_merged`, or `other_substantive_change`. Use `other_substantive_change` only when no preferred value fits and explain why in `summary`. Construct a stable `change_id` from the package identities, artifact ID or canonical URL, source locations, and change type; do not use run order alone.
+
 Every `unresolved` item must include `unresolved_id`, `source_locations`, `reason`, `available_evidence`, and `needed_to_resolve`. The ledger may additionally carry IG-native conformance facts such as old/new cardinality, binding, actor, or scope when directly evidenced by the diff.
 
 The ledger is IG-only. It must not contain `inventory_match`, `candidate_tests`, `candidate_coverage`, test or suite names, implementation actions, prioritization, decisions, or implementation notes.
@@ -78,7 +89,9 @@ The ledger is IG-only. It must not contain `inventory_match`, `candidate_tests`,
 Before reporting completion:
 
 - Confirm both inputs were inspected and their identities and locations are recorded, including any unavailable metadata.
+- Confirm every candidate artifact from both versions is `matched`, `excluded` with a reason, or `unresolved`, and report counts for each manifest status.
 - Confirm the Markdown diff exists, is non-empty, has the required metadata, summary, uniquely identified entries, and unresolved section, and that every entry cites old/new source locations or explains why one side is absent.
 - Confirm the YAML parses; `meta.ledger_stage` is exactly `raw_ig_change_ledger`; declared totals equal the lengths of `changes` and `unresolved`; every `diff_entry_id` resolves to a Markdown diff entry; and all required record fields are present.
+- Confirm every `change_type` uses the preferred vocabulary and every `change_id` follows the stable-ID rule.
 - Confirm the YAML contains only IG evidence and no downstream Inferno matching or implementation decisions.
 - Report the paths of both artifacts, counts by change type, unresolved count, and material limitations. Do not proceed to downstream matching or implementation work.

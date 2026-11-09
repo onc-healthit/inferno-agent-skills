@@ -39,9 +39,7 @@ For IG-driven Inferno test-kit updates, the recommended skill workflow is:
 4. `inferno-test-impact-assessor` — turn matched changes into an implementation decision ledger.
 5. `inferno-test-kit-updater` — apply approved decisions and validate the test-kit changes.
 
-For agent-use evaluation, run `agent-usage-metrics-skill` to generate reports, then open the Agent Evaluation Dashboard to visualize them.
-
-The IG-change-ledger skill calls an LLM and requires a provider key: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, or, for comparison, `GEMINI_API_KEY`. Set keys in your shell or an untracked `.env` file. The other skills run locally, although agent-usage token and cost enrichment may require separately approving a `ccusage` download.
+For agent-use evaluation, run `agent-usage-metrics-skill` to generate reports, then open the Agent Evaluation Dashboard to visualize them. The agent-usage token and cost enrichment may require separately approving a `ccusage` download.
 
 ## Prompting
 Skills can be used either by invoking skills by name in the coding agent (e.g., /fhir-ig-change-ledger) or through providing information to the agent through a prompt. We recommend working with this pipeline using prompts. Example prompts to use for each skill are included in the file prompt-examples.md. These are generic and can be customized to different IGs. 

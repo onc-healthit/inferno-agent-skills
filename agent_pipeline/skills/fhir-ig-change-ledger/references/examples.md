@@ -24,8 +24,6 @@ beyond the raw ledger contract.
   summary: Coverage search-type support and _id search are newly required.
   old_text: Coverage supported read only.
   new_text: Coverage SHALL support search-type and SHALL support _id search.
-  test_action: add_required_assertion
-  confidence: high
   source_of_truth_status: extracted
 ```
 
@@ -51,8 +49,6 @@ beyond the raw ledger contract.
   summary: Adjusted claims now have explicit related.reference and related.relationship requirements.
   old_text: Prior claim number should represent the most recent claim.
   new_text: Adjustment requests SHALL populate related.reference and relationship using prior or replacedby.
-  test_action: add_required_assertion
-  confidence: medium
   source_of_truth_status: extracted
 ```
 
@@ -76,8 +72,6 @@ beyond the raw ledger contract.
   summary: ADA CDT was added to the list of code systems that do not require separate license handling.
   old_text: ADA CDT was not listed.
   new_text: ADA CDT appears in the Code Systems Not Requiring Licenses list.
-  test_action: update_suite_config
-  confidence: medium
   source_of_truth_status: extracted
 ```
 
@@ -101,8 +95,6 @@ beyond the raw ledger contract.
   summary: The background description of who may act for the consumer was revised.
   old_text: Consumer or individual authorized by a payer.
   new_text: Consumer or authorized personal representative.
-  test_action: no_test_change_likely
-  confidence: high
   source_of_truth_status: extracted
 ```
 

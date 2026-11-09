@@ -37,13 +37,10 @@ Each item in `changes` should preserve enough IG context for later matching:
 - `scope`
 - `planning_to_test`
 - `old_requirement_ids`
-- `test_action`
-- `confidence`
 - `source_of_truth_status`
 
 ## Rules
 
 - Keep this ledger about the IG only.
-- Do not include `inventory_match`, `candidate_tests`, `candidate_coverage`, decisions, or implementation notes.
 - Use stable `change_id` values when rerunning from the same diff.
 - Preserve exact old/new text when available; summarize only in `summary`.
